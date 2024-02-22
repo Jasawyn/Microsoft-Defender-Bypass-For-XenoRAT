@@ -1,0 +1,39 @@
+# Download txt, rename .ps1
+
+function TripleDES-DecryptFile {
+    param (
+        [string]$inputFilePath,
+        [string]$outputFilePath,
+        [string]$pass
+    )
+
+    $key = $pass.PadRight(24, ' ')   # Pad the passphrase to 24 characters
+    $TripleDES = New-Object System.Security.Cryptography.TripleDESCryptoServiceProvider
+    $TripleDES.Key = [System.Text.Encoding]::UTF8.GetBytes($key)
+    $TripleDES.Mode = [System.Security.Cryptography.CipherMode]::ECB
+
+    try {
+        $DESDecrypter = $TripleDES.CreateDecryptor()
+
+        # Read the content of the encrypted file
+        $encryptedContent = Get-Content -Path $inputFilePath -Raw
+
+        # Decrypt the content
+        $encryptedBytes = [System.Convert]::FromBase64String($encryptedContent)
+        $decryptedBytes = $DESDecrypter.TransformFinalBlock($encryptedBytes, 0, $encryptedBytes.Length)
+
+        # Write the decrypted content to a new file
+        [System.IO.File]::WriteAllBytes($outputFilePath, $decryptedBytes)
+
+        Write-Host "File decrypted successfully."
+    } catch {
+        Write-Host "Error: $_"
+    }
+}
+
+# Example usage:
+$inputFilePath = "$HOME\fff.cpt"
+$outputFilePath = "$HOME\decrypt.exe"
+$password = "YourActualPassphraseHere"
+
+TripleDES-DecryptFile -inputFilePath $inputFilePath -outputFilePath $outputFilePath -pass $password

